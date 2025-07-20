@@ -10,9 +10,9 @@ Window::Window(int width, int height)
 
     glfwSetWindowUserPointer(m_pWindow, this);
     glfwSetWindowCloseCallback(m_pWindow, [](GLFWwindow* window) {
-        static_cast<Window*>(glfwGetWindowUserPointer(window))->is_closed = true;
+        static_cast<Window*>(glfwGetWindowUserPointer(window))->SetClosed(true);
     });
-    is_closed = false;
+    SetClosed(false);
 }
 
 Window::~Window()

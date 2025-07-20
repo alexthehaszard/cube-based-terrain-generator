@@ -9,7 +9,7 @@ int main()
     std::unique_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
 
     // Game loop
-    while (!pWindow->is_closed)
+    while (!pWindow->IsClosed())
     {
         pWindow->DrawFrame();
     }
