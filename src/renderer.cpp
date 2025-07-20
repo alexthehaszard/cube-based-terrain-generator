@@ -1,9 +1,3 @@
-#include <vector>
-#include <array>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "renderer.h"
 
 Renderer::Renderer()

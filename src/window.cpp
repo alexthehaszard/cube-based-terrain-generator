@@ -1,9 +1,3 @@
-#include <functional>
-#include <iostream>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
 #include "window.h"
 
 Window::Window(int width, int height)
@@ -24,7 +18,7 @@ Window::Window(int width, int height)
         std::cerr << "Glew failed to initialize\n";
         exit(1);
     }
-
+    
     // Add a pointer to this class to the window, then set the "closed" callback
     // which sets this window class to closed
     glfwSetWindowUserPointer(m_pWindow, this);
@@ -61,9 +55,12 @@ unsigned int Window::SetupShaders()
 {
     const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "uniform mat4 model;\n"
+    "uniform mat4 view;\n"
+    "uniform mat4 projection;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
     "}\0";
     
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);

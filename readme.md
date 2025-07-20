@@ -9,7 +9,10 @@ This project is a tech demo for terrain generation using cube-based rendering.
 - [x] Get a window opening in openGL
 - [x] Render triangle
 - [x] Render quad
-- [ ] Render cube
+- [x] Render cube
 - [ ] Render with colours
 - [x] Basic shader
 - [ ] Load shader from file
+- [ ] Make camera code nicer (less magic number action at least)
+- [ ] Load texture onto cube
+- [ ] Investigate _correct_ way to define a cube to render
