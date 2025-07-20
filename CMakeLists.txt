@@ -3,6 +3,7 @@ project(cube-based-terrain-generator)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.4 REQUIRED)
+find_package(GLEW REQUIRED HINTS /usr/local/Cellar/glew)
 
 file(GLOB_RECURSE SOURCE_FILES 
 	${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -20,9 +21,11 @@ add_executable(${PROJECT_NAME}
 include_directories(
 	"${CMAKE_SOURCE_DIR}/src"
 	"${CMAKE_SOURCE_DIR}/include"
+    ${GLEW_INCLUDE_DIRS}
 )
 
 target_link_libraries(${PROJECT_NAME} 
     ${OPENGL_LIBRARY} 
+    GLEW::GLEW
     glfw
 )

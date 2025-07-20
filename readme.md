@@ -7,7 +7,9 @@ This project is a tech demo for terrain generation using cube-based rendering.
 - [x] Make c++ project with cmake
 - [x] Get openGL into the project
 - [x] Get a window opening in openGL
-- [ ] Render triangle
-- [ ] Render quad
+- [x] Render triangle
+- [x] Render quad
+- [ ] Render cube
 - [ ] Render with colours
-- [ ] Basic shader
+- [x] Basic shader
+- [ ] Load shader from file
