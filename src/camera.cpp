@@ -1,8 +1,9 @@
 #include "camera.h"
 
-Camera::Camera(glm::vec3 position, glm::vec3 target) :
+Camera::Camera(glm::vec3 position, glm::vec3 target, std::shared_ptr<Shader> pShader) :
     m_Position(position),
-    m_Target(target)
+    m_Target(target),
+    m_pShader(pShader)
 {
 
 }
@@ -12,7 +13,7 @@ Camera::~Camera()
 
 }
 
-void Camera::UpdatePosition(GLuint shaderProgram)
+void Camera::UpdatePosition()
 {
     glm::mat4 view = glm::mat4(1.0f);
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f)); 
@@ -23,10 +24,10 @@ void Camera::UpdatePosition(GLuint shaderProgram)
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));  
 
-    int viewLoc = glGetUniformLocation(shaderProgram, "view");
+    int viewLoc = glGetUniformLocation(m_pShader->ID, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    int projectionLoc = glGetUniformLocation(shaderProgram, "projection");
+    int projectionLoc = glGetUniformLocation(m_pShader->ID, "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    int modelLoc = glGetUniformLocation(shaderProgram, "model");
+    int modelLoc = glGetUniformLocation(m_pShader->ID, "model");
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 }

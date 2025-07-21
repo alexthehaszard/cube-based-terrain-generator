@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "cube.h"
 #include "camera.h"
+#include "shader.h"
 
 int main() 
 {
@@ -11,23 +12,24 @@ int main()
     // World objects
     std::unique_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
     std::unique_ptr<Renderer> pRenderer = std::make_unique<Renderer>();
-    std::unique_ptr<Camera> pCamera = std::make_unique<Camera>(cameraPos, cameraTarget);
+    std::shared_ptr<Shader> pStandardShader = std::make_shared<Shader>("src/shaders/basic.vert", "src/shaders/basic.frag");
+    std::unique_ptr<Camera> pCamera = std::make_unique<Camera>(cameraPos, cameraTarget, pStandardShader);
     pCamera->SetFov(90.0f);
 
     // Terrain objects
     Cube cube1({-0.5,-0.5,-0.5}, {1,1,1});
     std::shared_ptr<std::vector<float>> cubeVertexArray = cube1.GetVertexArray();
 
-    unsigned int shaderProgram = pWindow->SetupShaders();
-
     // Main loop
     while (!pWindow->IsClosed())
     {
-        pCamera->UpdatePosition(shaderProgram);
+        pCamera->UpdatePosition();
         cube1.UpdateVertexArray();
 
         auto VAO = pRenderer->GenerateVertexArrayObject(*cubeVertexArray);
-        pWindow->DrawFrame(shaderProgram, VAO, cubeVertexArray->size() / 3);
+        // Draw frame using standard shader
+        pStandardShader->use();
+        pWindow->DrawFrame(VAO, cubeVertexArray->size() / 3);
     }
 
     return 0;
