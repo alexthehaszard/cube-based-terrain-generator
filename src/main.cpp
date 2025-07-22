@@ -7,12 +7,12 @@
 
 int main() 
 {
-    glm::vec3 cameraPos = {0,1,0};
+    glm::vec3 cameraPos = {0,0.5,0};
     glm::vec3 cameraTarget = {0,0,0};
     // World objects
     std::unique_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
     std::unique_ptr<Renderer> pRenderer = std::make_unique<Renderer>();
-    std::shared_ptr<Shader> pStandardShader = std::make_shared<Shader>("src/shaders/basic.vert", "src/shaders/basic.frag");
+    std::shared_ptr<Shader> pStandardShader = std::make_shared<Shader>("shaders/basic.vert", "shaders/basic.frag");
     std::unique_ptr<Camera> pCamera = std::make_unique<Camera>(cameraPos, cameraTarget, pStandardShader);
     pCamera->SetFov(90.0f);
 
