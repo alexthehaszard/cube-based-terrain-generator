@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

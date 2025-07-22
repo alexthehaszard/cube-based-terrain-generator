@@ -13,9 +13,11 @@ This project is a tech demo for terrain generation using cube-based rendering.
 - [x] Render with colours
 - [x] Basic shader
 - [x] Load shader from file
-- [ ] Make camera code nicer (less magic number action at least)
+- [x] Make camera code nicer (less magic number action at least)
 - [ ] Load texture onto cube
 - [ ] Investigate _correct_ way to define a cube to render
 - [ ] Make nice logger
 - [x] Camera movement
-- [ ] Camera rotation & movement based on rotation
+- [x] Camera rotation & movement based on rotation
+- [ ] Add mouse sensitivity
+- [ ] Take another look at perspective (in camera)
