@@ -1,3 +1,5 @@
+#pragma once
+
 #include "stdafx.h"
 
 class Window
@@ -15,6 +17,11 @@ public:
 
     void SetClosed(bool closed) { m_bClosed = closed; }
     bool IsClosed() { return m_bClosed; }
+
+    int GetKey(int key);
+    glm::vec2 GetCursorPos();
+
+    GLFWwindow* GetWindow();
 private:
     GLFWwindow* m_pWindow;
     bool m_bClosed;

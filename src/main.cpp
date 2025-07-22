@@ -7,14 +7,16 @@
 
 int main() 
 {
-    glm::vec3 cameraPos = {0,0.5,0};
-    glm::vec3 cameraTarget = {0,0,0};
+    glm::vec3 cameraPos = {0,0,-1.5f};
     // World objects
-    std::unique_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
-    std::unique_ptr<Renderer> pRenderer = std::make_unique<Renderer>();
+    std::shared_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
     std::shared_ptr<Shader> pStandardShader = std::make_shared<Shader>("shaders/basic.vert", "shaders/basic.frag");
-    std::unique_ptr<Camera> pCamera = std::make_unique<Camera>(cameraPos, cameraTarget, pStandardShader);
+    std::unique_ptr<Renderer> pRenderer = std::make_unique<Renderer>();
+    std::unique_ptr<Camera> pCamera = std::make_unique<Camera>(cameraPos, pStandardShader, pWindow);
     pCamera->SetFov(90.0f);
+
+    double lastFrameTime = glfwGetTime();
+    float deltaTime = 0;
 
     // Terrain objects
     Cube cube1({-0.5,-0.5,-0.5}, {1,1,1});
@@ -23,13 +25,18 @@ int main()
     // Main loop
     while (!pWindow->IsClosed())
     {
-        pCamera->UpdatePosition();
+        pCamera->UpdatePosition(deltaTime);
         cube1.UpdateVertexArray();
 
         auto VAO = pRenderer->GenerateVertexArrayObject(*cubeVertexArray);
         // Draw frame using standard shader
         pStandardShader->use();
         pWindow->DrawFrame(VAO, cubeVertexArray->size() / 3);
+    
+        deltaTime = glfwGetTime() - lastFrameTime;
+        lastFrameTime += deltaTime;
+
+        if (pWindow->GetKey(GLFW_KEY_ESCAPE)) break;
     }
 
     return 0;

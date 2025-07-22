@@ -20,7 +20,9 @@ Window::Window(int width, int height)
     }
 
     glEnable(GL_DEPTH_TEST);
-
+    glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_pWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    
     // Add a pointer to this class to the window, then set the "closed" callback
     // which sets this window class to closed
     glfwSetWindowUserPointer(m_pWindow, this);
@@ -46,4 +48,21 @@ void Window::DrawFrame(unsigned int VAO, unsigned int polyCount)
 
     glfwSwapBuffers(m_pWindow);
     glfwPollEvents();
+}
+
+int Window::GetKey(int key)
+{
+    return glfwGetKey(m_pWindow, key);
+}
+
+glm::vec2 Window::GetCursorPos()
+{
+    double x, y;
+    glfwGetCursorPos(m_pWindow, &x, &y);
+    return glm::vec2{x, y};
+}
+
+GLFWwindow* Window::GetWindow()
+{
+    return m_pWindow;
 }
