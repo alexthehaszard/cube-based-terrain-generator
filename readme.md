@@ -10,7 +10,7 @@ This project is a tech demo for terrain generation using cube-based rendering.
 - [x] Render triangle
 - [x] Render quad
 - [x] Render cube
-- [ ] Render with colours
+- [x] Render with colours
 - [x] Basic shader
 - [x] Load shader from file
 - [ ] Make camera code nicer (less magic number action at least)

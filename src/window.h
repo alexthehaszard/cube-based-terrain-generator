@@ -16,6 +16,6 @@ public:
     void SetClosed(bool closed) { m_bClosed = closed; }
     bool IsClosed() { return m_bClosed; }
 private:
-    GLFWwindow* m_pWindow;    
+    GLFWwindow* m_pWindow;
     bool m_bClosed;
 };

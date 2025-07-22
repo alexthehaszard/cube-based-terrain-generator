@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(cube-based-terrain-generator)
 
+set(CMAKE_CXX_STANDARD 17)
+
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.4 REQUIRED)
 find_package(GLEW REQUIRED HINTS /usr/local/Cellar/glew)

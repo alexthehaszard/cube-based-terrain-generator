@@ -36,11 +36,8 @@ Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
     
     // vertex Shader
     GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
-    std::cout << "before srouce" << std::endl;
     glShaderSource(vertex, 1, &vShaderCode, NULL);
-    std::cout << "before compile vertex" << std::endl;
     glCompileShader(vertex);
-    std::cout << "before get shader" << std::endl;
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
     if(!success)
     {
@@ -83,17 +80,22 @@ void Shader::use()
     glUseProgram(ID);
 }
 
-void Shader::SetBool(const std::string &name, bool value) const
+void Shader::SetBool(const std::string& name, bool value) const
 {         
     glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
 }
 
-void Shader::SetInt(const std::string &name, int value) const
+void Shader::SetInt(const std::string& name, int value) const
 { 
     glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
 }
 
-void Shader::SetFloat(const std::string &name, float value) const
+void Shader::SetFloat(const std::string& name, float value) const
 { 
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
 } 
+
+void Shader::SetMat4(const std::string& name, const glm::mat4& matrix) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+}

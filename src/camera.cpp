@@ -24,10 +24,7 @@ void Camera::UpdatePosition()
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));  
 
-    int viewLoc = glGetUniformLocation(m_pShader->ID, "view");
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    int projectionLoc = glGetUniformLocation(m_pShader->ID, "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    int modelLoc = glGetUniformLocation(m_pShader->ID, "model");
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    m_pShader->SetMat4("view", view);
+    m_pShader->SetMat4("projection", projection);
+    m_pShader->SetMat4("model", model);
 }

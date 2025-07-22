@@ -18,7 +18,9 @@ Window::Window(int width, int height)
         std::cerr << "Glew failed to initialize\n";
         exit(1);
     }
-    
+
+    glEnable(GL_DEPTH_TEST);
+
     // Add a pointer to this class to the window, then set the "closed" callback
     // which sets this window class to closed
     glfwSetWindowUserPointer(m_pWindow, this);
@@ -36,65 +38,12 @@ Window::~Window()
 
 void Window::DrawFrame(unsigned int VAO, unsigned int polyCount)
 {
-    // Set base colour
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
 
-    // Use shaders to draw polyCount triangles from vertex array object
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3 * polyCount);
 
     glfwSwapBuffers(m_pWindow);
     glfwPollEvents();
 }
-
-// unsigned int Window::SetupShaders()
-// {
-//     const char *vertexShaderSource = "#version 330 core\n"
-//     "layout (location = 0) in vec3 aPos;\n"
-//     "uniform mat4 model;\n"
-//     "uniform mat4 view;\n"
-//     "uniform mat4 projection;\n"
-//     "void main()\n"
-//     "{\n"
-//     "   gl_Position = projection * view * model * vec4(aPos, 1.0);\n"
-//     "}\0";
-    
-//     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-//     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-//     glCompileShader(vertexShader);
-
-//     int success;
-//     char infoLog[512];
-//     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-//     if(!success)
-//     {
-//         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-//         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-//     }
-
-//     const char *fragmentShaderSource = "#version 330 core\n"
-//     "out vec4 FragColor;\n"
-//     "void main()\n"
-//     "{\n"
-//     "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-//     "}\0";
-//     unsigned int fragmentShader;
-//     fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-//     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-//     glCompileShader(fragmentShader);
-
-//     unsigned int shaderProgram;
-//     shaderProgram = glCreateProgram();
-
-//     glAttachShader(shaderProgram, vertexShader);
-//     glAttachShader(shaderProgram, fragmentShader);
-//     glLinkProgram(shaderProgram);
-//     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-//     if(!success) {
-//         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-//         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-//     }
-
-//     return shaderProgram;
-// }
