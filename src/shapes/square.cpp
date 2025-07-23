@@ -1,7 +1,7 @@
 #include "square.h"
 #include "poly.h"
 
-Square::Square(std::array<glm::vec3, 4> coords, std::array<glm::vec2, 4> texCoords)
+Square::Square(const std::array<glm::vec3, 4>& coords, const std::array<glm::vec2, 4>& texCoords)
 {
     m_pVertexList = std::make_shared<std::vector<float>>();
     Poly poly1({coords[0], coords[1], coords[2]}, {texCoords[0], texCoords[1], texCoords[2]});

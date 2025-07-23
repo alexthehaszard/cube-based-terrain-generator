@@ -22,3 +22,4 @@ This project is a tech demo for terrain generation using cube-based rendering.
 - [ ] Add mouse sensitivity
 - [ ] Take another look at perspective (in camera)
 - [ ] Clean up cube code
+- [ ] Proper cube texturing (all faces have different texture map)

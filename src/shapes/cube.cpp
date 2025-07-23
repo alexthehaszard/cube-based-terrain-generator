@@ -1,80 +1,57 @@
 #include "cube.h"
 #include "square.h"
 
-/**
- * This is very much proof-of-concepty
- * kinda sucks the way i'm doing it
- * in the future would like to clean this up a lot.
- */
-Cube::Cube(glm::vec3 coords, glm::vec3 dimensions)
+Cube::Cube(const glm::vec3& coords, const glm::vec3& dimensions)
 {
     m_pVertexList = std::make_shared<std::vector<float>>();
-
-    std::array<glm::vec3, 4> frontCoords = {{
+    std::unordered_map<std::string, std::array<glm::vec3, 4>> faceCoordsMap;
+    faceCoordsMap["front"] = {{
         glm::vec3{0, 0, 0} + coords, 
         glm::vec3{dimensions.x, 0, 0} + coords,
         glm::vec3{dimensions.x, dimensions.y, 0} + coords, 
         glm::vec3{0, dimensions.y, 0} + coords
     }};
-    std::array<glm::vec3, 4> backCoords = {{
-        glm::vec3{0, 0, dimensions.z} + coords, 
-        glm::vec3{dimensions.x, 0, dimensions.z} + coords,
-        glm::vec3{dimensions.x, dimensions.y, dimensions.z} + coords, 
-        glm::vec3{0, dimensions.y, dimensions.z} + coords
-    }};
+    faceCoordsMap["back"] = GetOppositeFace(faceCoordsMap["front"], dimensions.z, 2);
 
-    std::array<glm::vec3, 4> leftCoords = {{
+    faceCoordsMap["left"] = {{
         glm::vec3{0, 0, 0} + coords, 
         glm::vec3{0, 0, dimensions.z} + coords,
         glm::vec3{0, dimensions.y, dimensions.z} + coords, 
         glm::vec3{0, dimensions.y, 0} + coords
     }};
-    std::array<glm::vec3, 4> rightCoords = {{
-        glm::vec3{dimensions.x, 0, 0} + coords, 
-        glm::vec3{dimensions.x, 0, dimensions.z} + coords,
-        glm::vec3{dimensions.x, dimensions.y, dimensions.z} + coords, 
-        glm::vec3{dimensions.x, dimensions.y, 0} + coords
-    }};
+    faceCoordsMap["right"] = GetOppositeFace(faceCoordsMap["left"], dimensions.x, 0);
 
-    std::array<glm::vec3, 4> bottomCoords = {{
+    faceCoordsMap["bottom"] = {{
         glm::vec3{0, 0, 0} + coords, 
         glm::vec3{dimensions.x, 0, 0} + coords,
         glm::vec3{dimensions.x, 0, dimensions.z} + coords, 
         glm::vec3{0, 0, dimensions.z} + coords
     }};
-    std::array<glm::vec3, 4> topCoords = {{
-        glm::vec3{0, dimensions.y, 0} + coords, 
-        glm::vec3{dimensions.x, dimensions.y, 0} + coords,
-        glm::vec3{dimensions.x, dimensions.y, dimensions.z} + coords, 
-        glm::vec3{0, dimensions.y, dimensions.z} + coords
-    }};
+    faceCoordsMap["top"] = GetOppositeFace(faceCoordsMap["bottom"], dimensions.y, 1);
 
     std::array<glm::vec2, 4> texCoords = {{
         {0.0f,0.0f},{1.0f,0.0f},{1.0f,1.0f},{0.0f,1.0f}
     }};
 
-    Square front(frontCoords, texCoords);
-    Square back(backCoords, texCoords);
-    Square left(leftCoords, texCoords);
-    Square right(rightCoords, texCoords);
-    Square bottom(bottomCoords, texCoords);
-    Square top(topCoords, texCoords);
-    std::shared_ptr<std::vector<float>> pFrontVertexList = front.GetVertexArray();
-    std::shared_ptr<std::vector<float>> pBackVertexList = back.GetVertexArray();
-    std::shared_ptr<std::vector<float>> pLeftVertexList = left.GetVertexArray();
-    std::shared_ptr<std::vector<float>> pRightVertexList = right.GetVertexArray();
-    std::shared_ptr<std::vector<float>> pBottomVertexList = bottom.GetVertexArray();
-    std::shared_ptr<std::vector<float>> pTopVertexList = top.GetVertexArray();
-
-    m_pVertexList->insert(m_pVertexList->end(), pFrontVertexList->begin(), pFrontVertexList->end());
-    m_pVertexList->insert(m_pVertexList->end(), pBackVertexList->begin(), pBackVertexList->end());
-    m_pVertexList->insert(m_pVertexList->end(), pLeftVertexList->begin(), pLeftVertexList->end());
-    m_pVertexList->insert(m_pVertexList->end(), pRightVertexList->begin(), pRightVertexList->end());
-    m_pVertexList->insert(m_pVertexList->end(), pBottomVertexList->begin(), pBottomVertexList->end());
-    m_pVertexList->insert(m_pVertexList->end(), pTopVertexList->begin(), pTopVertexList->end());
+    for (const auto& faceCoords : faceCoordsMap)
+    {
+        Square face(faceCoords.second, texCoords);
+        std::shared_ptr<std::vector<float>> pFaceVertexList = face.GetVertexArray();
+        m_pVertexList->insert(m_pVertexList->end(), pFaceVertexList->begin(), pFaceVertexList->end());
+    }
 }
 
 Cube::~Cube()
 {
 
+}
+
+std::array<glm::vec3, 4> Cube::GetOppositeFace(const std::array<glm::vec3, 4>& face, float distance, int index)
+{
+    std::array<glm::vec3, 4> result = face;
+    for (int i = 0; i < result.size(); i++)
+    {
+        result[i][index] += distance;
+    }
+    return result;
 }
