@@ -13,7 +13,7 @@ public:
      * @param VAO Vertex array object contains vertices of the triangles to draw
      * @param polyCount Number of polygons to draw
      */
-    void DrawFrame(unsigned int VAO, unsigned int polyCount);
+    void DrawFrame(unsigned int VAO, unsigned int polyCount, unsigned int texture);
 
     void SetClosed(bool closed) { m_bClosed = closed; }
     bool IsClosed() { return m_bClosed; }

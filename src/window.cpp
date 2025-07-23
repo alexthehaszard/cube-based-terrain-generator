@@ -22,7 +22,7 @@ Window::Window(int width, int height)
     glEnable(GL_DEPTH_TEST);
     glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (glfwRawMouseMotionSupported()) glfwSetInputMode(m_pWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-    
+
     // Add a pointer to this class to the window, then set the "closed" callback
     // which sets this window class to closed
     glfwSetWindowUserPointer(m_pWindow, this);
@@ -38,11 +38,12 @@ Window::~Window()
     glfwTerminate();
 }
 
-void Window::DrawFrame(unsigned int VAO, unsigned int polyCount)
+void Window::DrawFrame(unsigned int VAO, unsigned int polyCount, unsigned int texture)
 {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
 
+    glBindTexture(GL_TEXTURE_2D, texture);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3 * polyCount);
 

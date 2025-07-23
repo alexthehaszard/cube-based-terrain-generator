@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "window.h"
 #include "renderer.h"
-#include "cube.h"
+#include "shapes/cube.h"
+#include "shapes/square.h"
+#include "shapes/poly.h"
 #include "camera.h"
 #include "shader.h"
 
 int main() 
 {
-    glm::vec3 cameraPos = {0,0,-1.5f};
+    glm::vec3 cameraPos = {0,0,0};
     // World objects
     std::shared_ptr<Window> pWindow = std::make_unique<Window>(640, 480);
     std::shared_ptr<Shader> pStandardShader = std::make_shared<Shader>("shaders/basic.vert", "shaders/basic.frag");
@@ -19,19 +21,24 @@ int main()
     float deltaTime = 0;
 
     // Terrain objects
-    Cube cube1({-0.5,-0.5,-0.5}, {1,1,1});
-    std::shared_ptr<std::vector<float>> cubeVertexArray = cube1.GetVertexArray();
+    Cube cube1({0,1,0}, {1,1,1});
+    Cube cube2({1,-2,0}, {1,1,1});
+    pRenderer->AddObject(cube1);
+    pRenderer->AddObject(cube2);
+
+    unsigned int wallTexture = pRenderer->LoadTextureFromFile("images/wall.jpg");
 
     // Main loop
     while (!pWindow->IsClosed())
     {
         pCamera->UpdatePosition(deltaTime);
-        cube1.UpdateVertexArray();
 
-        auto VAO = pRenderer->GenerateVertexArrayObject(*cubeVertexArray);
         // Draw frame using standard shader
         pStandardShader->use();
-        pWindow->DrawFrame(VAO, cubeVertexArray->size() / 3);
+        pWindow->DrawFrame(
+            pRenderer->GenerateVertexArrayObject(),
+            pRenderer->GetPolyCount(),
+            wallTexture);
     
         deltaTime = glfwGetTime() - lastFrameTime;
         lastFrameTime += deltaTime;

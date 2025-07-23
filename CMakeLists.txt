@@ -16,6 +16,7 @@ file(GLOB_RECURSE HEADER_FILES
 	${CMAKE_SOURCE_DIR}/src/*.h)
 
 include_directories(${CMAKE_BINARY_DIR}/src)
+include_directories(${CMAKE_BINARY_DIR}/thirdparty/include)
 
 add_executable(${PROJECT_NAME} 
     ${HEADER_FILES} 
